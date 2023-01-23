@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+table {
+    @apply table-fixed text-xl bg-slate-400 border-black border-2 border-collapse m-10;
+  }
+  td, th{
+    @apply border-black border-2 border-spacing-2 p-2;
+  }
