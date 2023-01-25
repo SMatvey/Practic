@@ -1,6 +1,7 @@
 <template>
-  <div class="rule">
+  <div class="Rule">
     <input type="text" name="search" v-model="search"><br>
+    <h2>Кількість студентів: {{ studentsCount }}</h2>
     <table class="table table-dark">
         <tr>
         <th>ПІБ</th>
@@ -59,8 +60,12 @@
 
 <script>
 import axios from 'axios'
+import { computed } from "vue";
  
 export default {
+    props: {
+        id: "",
+    },
     data() {
        return {
             students: [],
@@ -79,8 +84,16 @@ export default {
         .then(data => {
             this.students =  data.data;
             console.log(this.students)
+            this.$store.commit("setCount", this.students.length);
         })
-        
+    },
+    computed: {
+        studentsCount() {
+            return this.$store.getters.getCount;
+        },
+        getTheme(){
+            return this.$store.getters.getTheme;
+        }
     },
     methods: {
         addStudent() {
@@ -140,13 +153,32 @@ export default {
                 this.rate = this.amount + " " + this.convertFrom + " equals " +
                 (data.data.info.rate * this.amount).toFixed(3) + " " + this.convertTo;
             }); 
-        }
-    
-    }
+        },    
+    },
 }
 
 function getStudents() {
     return axios.get('http://34.82.81.113:3000/students')
 }
 
+
 </script>
+
+<style>
+.white {
+  background-color: rgb(255, 255, 255);
+  color: black;
+  transition: 0.2s linear;
+}
+.black {
+  background-color: rgb(34, 34, 34);
+  color: white;
+  transition: 0.2s linear;
+}
+.red {
+  background-color: rgb(146, 0, 0);
+  color: white;
+  transition: 0.2s linear;
+}
+
+</style>
